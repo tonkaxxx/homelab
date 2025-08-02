@@ -1,0 +1,6 @@
+services:
+  lenses-bot:
+    build: .
+    container_name: lenses_bot
+    env_file:
+      - ./app/.env

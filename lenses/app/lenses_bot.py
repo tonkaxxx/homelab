@@ -5,6 +5,9 @@ from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 from aiogram.enums import ParseMode
 from aiogram.client.default import DefaultBotProperties
 
+from dotenv import load_dotenv
+import os
+
 load_dotenv()
 
 API_TOKEN = os.getenv('TELEGRAM_BOT_TOKEN')

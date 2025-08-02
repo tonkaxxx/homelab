@@ -42,7 +42,7 @@ kubectl apply -f https://github.com/flannel-io/flannel/releases/latest/download/
 
 10. join worker (worker node)
 
-### enable metrics (optional)
+### enable metrics (optional, but recommended)
 
 1. apply metrics server
 kubectl apply -f https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml --server-side

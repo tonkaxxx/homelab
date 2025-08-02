@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: lenses-bot
+  labels:
+    app: lenses-bot
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: lenses-bot
+  template:
+    metadata:
+      labels:
+        app: lenses-bot
+    spec:
+      containers:
+      - name: bot
+        image: docker.io/tonkaxxx/lenses_bot:latest
+        env:
+        - name: TELEGRAM_BOT_TOKEN
+          valueFrom:
+            secretKeyRef:
+              name: lenses-bot-secret
+              key: TELEGRAM_BOT_TOKEN
+        resources:
+          requests:
+            cpu: "10m"
+            memory: "64Mi"
+          limits:
+            cpu: "20m"
+            memory: "128Mi"
