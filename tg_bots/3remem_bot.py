@@ -5,7 +5,7 @@ import logging
 import asyncio
 from datetime import time
 
-TOKEN = "7837872453:AAECZvmuzsIMgdqfvaQdgCt5_KL3Vor0zqo"
+TOKEN = ":AAECZvmuzsIMgdqfvaQdgCt5_KL3Vor0zqo"
 CHAT_ID = "1143331646"
 
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)

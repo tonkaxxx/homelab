@@ -14,7 +14,7 @@ from sumy.summarizers.lsa import LsaSummarizer
 nltk.download('punkt')
 
 # Установите свой токен
-TELEGRAM_TOKEN = '7686102771:AAGTK3QjGduaCTLnepudS_wpMVh2sClIVBg'  # Используйте переменные окружения для безопасности
+TELEGRAM_TOKEN = ':AAGTK3QjGduaCTLnepudS_wpMVh2sClIVBg'  # Используйте переменные окружения для безопасности
 
 # ID администратора для отправки логов
 ADMIN_ID = 1143331646

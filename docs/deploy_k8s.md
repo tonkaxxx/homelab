@@ -35,7 +35,7 @@ sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
 sudo chown $(id -u):$(id -g) $HOME/.kube/config 
 
 8. cp config on ur pc
-scp m108@10.5.1.32:/home/m108/.kube/config /home/user/.kube/config
+scp server@ip:/home/m108/.kube/config /home/user/.kube/config
 
 9. apply flannel
 kubectl apply -f https://github.com/flannel-io/flannel/releases/latest/download/kube-flannel.yml 

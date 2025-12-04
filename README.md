@@ -6,7 +6,7 @@ Hey there! 👋 This is my homelab Kubernetes cluster running on **Alpine Linux*
 - **1 Master Node**
 - **2 Worker Nodes**
 
-### Why now Ubuntu?  
+### Why not Ubuntu?  
 - super simple and fast!
 - limited resources on my nodes
 - always wanted to try something new!  
