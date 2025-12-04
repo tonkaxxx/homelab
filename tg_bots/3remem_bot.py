@@ -1,6 +1,6 @@
 #pip install python-telegram-bot==20.6
-from telegram.ext import Application, CommandHandler
-from telegram import Bot
+from telegram.ext import Application, CommandHandler # type: ignore
+from telegram import Bot # type: ignore
 import logging
 import asyncio
 from datetime import time

@@ -1,14 +1,14 @@
-import cv2
-import pytesseract
+import cv2 # type: ignore
+import pytesseract # type: ignore
 import tempfile
 import os
-import nltk
+import nltk # type: ignore
 import logging
-from telegram import Update, InputFile
-from telegram.ext import ApplicationBuilder, CommandHandler, MessageHandler, filters, ContextTypes
-from sumy.parsers.plaintext import PlaintextParser
-from sumy.nlp.tokenizers import Tokenizer
-from sumy.summarizers.lsa import LsaSummarizer
+from telegram import Update, InputFile # type: ignore
+from telegram.ext import ApplicationBuilder, CommandHandler, MessageHandler, filters, ContextTypes # type: ignore
+from sumy.parsers.plaintext import PlaintextParser # type: ignore
+from sumy.nlp.tokenizers import Tokenizer # type: ignore
+from sumy.summarizers.lsa import LsaSummarizer # type: ignore
 
 # Инициализация словарей nltk
 nltk.download('punkt')
