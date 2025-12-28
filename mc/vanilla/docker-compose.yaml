@@ -1,0 +1,16 @@
+services:
+  mc-server:
+    image: itzg/minecraft-server
+    container_name: vanilla
+    ports:
+      - "25565:25565"
+    environment:
+      EULA: "TRUE"
+      TYPE: "VANILLA"
+      VERSION: "1.21.8"
+      ONLINE_MODE: "FALSE"
+    volumes:
+      - ./data:/data
+    tty: true
+    stdin_open: true
+    restart: unless-stopped
