@@ -14,5 +14,6 @@ Hey there! 👋 This is my homelab Kubernetes cluster running on **Alpine Linux*
 ### What’s Running?  
 - cluster deployed with kubeadm (someone can say kubeadm is overkill, but i say its practice😉) 
 - telegram bot to track my lenses schedule
+- prometheus metrics and alert system
 
-Feel free to poke around, steal ideas, or judge my YAML files. 😄  
+### Feel free to poke around, steal ideas, or judge my YAML files. 😄  

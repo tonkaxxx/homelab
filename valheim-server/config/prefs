@@ -1,0 +1,27 @@
+<unity_prefs version_major="1" version_minor="1">
+	<pref name="VSync" type="int">0</pref>
+	<pref name="unity.player_session_count" type="string">MQ==</pref>
+	<pref name="ShadowQuality" type="int">2</pref>
+	<pref name="Bloom" type="int">1</pref>
+	<pref name="SunShafts" type="int">1</pref>
+	<pref name="ConsoleBindings" type="string"></pref>
+	<pref name="Lights" type="int">2</pref>
+	<pref name="ShouldTryAutoLogin" type="int">1</pref>
+	<pref name="unity.player_sessionid" type="string">NDIwNTA5ODQzNzQ1MDYxNDUz</pref>
+	<pref name="DOF" type="int">1</pref>
+	<pref name="DistantShadows" type="int">1</pref>
+	<pref name="PointLights" type="int">3</pref>
+	<pref name="GraphicsQualityMode" type="int">100</pref>
+	<pref name="ChromaticAberration" type="int">1</pref>
+	<pref name="LodBias" type="int">2</pref>
+	<pref name="RenderScale" type="float">1</pref>
+	<pref name="Tesselation" type="int">1</pref>
+	<pref name="ClutterQuality" type="int">3</pref>
+	<pref name="FPSLimit" type="int">-1</pref>
+	<pref name="SSAO" type="int">1</pref>
+	<pref name="AttackTowardsPlayerLookDir" type="int">0</pref>
+	<pref name="MotionBlur" type="int">1</pref>
+	<pref name="SoftPart" type="int">1</pref>
+	<pref name="AntiAliasing" type="int">1</pref>
+	<pref name="PointLightShadows" type="int">2</pref>
+</unity_prefs>
