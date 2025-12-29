@@ -15,5 +15,9 @@ Hey there! 👋 This is my homelab Kubernetes cluster running on **Alpine Linux*
 - cluster deployed with kubeadm (someone can say kubeadm is overkill, but i say its practice😉) 
 - telegram bot to track my lenses schedule
 - prometheus metrics and alert system
+- minecraft, terraria and valheim server for me and my friends
+- pi-hole for network-wide ad blocking
+- homarr for dashboard
+- dashy - Yet Another Dashboard
 
 ### Feel free to poke around, steal ideas, or judge my YAML files. 😄  

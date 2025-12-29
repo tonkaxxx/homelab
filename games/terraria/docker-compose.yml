@@ -1,0 +1,21 @@
+services:
+  vanilla-server:
+    image: ghcr.io/meshi-team/terraria-server-vanilla:latest
+    # Use the line below instead of the build context if you want to use the pre-built image
+    # image: ghcr.io/meshi-team/terraria-server-vanilla:latest
+    container_name: vanilla-server
+    ports:
+      - 7777:7777 # Default Terraria server port
+    environment:
+      - WORLD_NAME=world
+      - WORLD_SIZE=2 # 1=small, 2=medium, 3=large
+      - WORLD_SEED=
+      - PASSWORD=
+      - DIFFICULTY=1 # 0=normal, 1=expert, 2=master, 3=journey
+      - MAX_PLAYERS=8
+    volumes:
+      - ./anilla-worlds:/terraria-server/worlds
+    # profiles: [vanilla]
+    restart: unless-stopped
+    tty: true
+    stdin_open: true

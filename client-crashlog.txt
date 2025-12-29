@@ -1,0 +1,19 @@
+12/29/2025 11:43:18 AM
+System.IO.DirectoryNotFoundException: Could not find a part of the path 'Z:\home\user\repos\homelab\Content'.
+  at System.IO.Enumeration.FileSystemEnumerator`1[TResult].CreateDirectoryHandle (System.String path, System.Boolean ignoreNotFound) [0x0004d] in <7b313c6e3f2c40498605ece484863e6a>:0 
+  at System.IO.Enumeration.FileSystemEnumerator`1[TResult]..ctor (System.String directory, System.IO.EnumerationOptions options) [0x00050] in <7b313c6e3f2c40498605ece484863e6a>:0 
+  at System.IO.Enumeration.FileSystemEnumerable`1+DelegateEnumerator[TResult]..ctor (System.IO.Enumeration.FileSystemEnumerable`1[TResult] enumerable) [0x00000] in <7b313c6e3f2c40498605ece484863e6a>:0 
+  at System.IO.Enumeration.FileSystemEnumerable`1[TResult]..ctor (System.String directory, System.IO.Enumeration.FileSystemEnumerable`1+FindTransform[TResult] transform, System.IO.EnumerationOptions options) [0x00042] in <7b313c6e3f2c40498605ece484863e6a>:0 
+  at System.IO.Enumeration.FileSystemEnumerableFactory.UserFiles (System.String directory, System.String expression, System.IO.EnumerationOptions options) [0x00014] in <7b313c6e3f2c40498605ece484863e6a>:0 
+  at System.IO.Directory.InternalEnumeratePaths (System.String path, System.String searchPattern, System.IO.SearchTarget searchTarget, System.IO.EnumerationOptions options) [0x00050] in <7b313c6e3f2c40498605ece484863e6a>:0 
+  at System.IO.Directory.GetFiles (System.String path, System.String searchPattern, System.IO.EnumerationOptions enumerationOptions) [0x00000] in <7b313c6e3f2c40498605ece484863e6a>:0 
+  at System.IO.Directory.GetFiles (System.String path, System.String searchPattern, System.IO.SearchOption searchOption) [0x00008] in <7b313c6e3f2c40498605ece484863e6a>:0 
+  at ReLogic.Content.Sources.XnaContentSource.BuildFileMap () [0x0000b] in <319aa192696f4f73bd171512082b8513>:0 
+  at ReLogic.Content.Sources.XnaContentSource..ctor (System.String rootDirectory) [0x00028] in <319aa192696f4f73bd171512082b8513>:0 
+  at Terraria.Main.LoadContent () [0x00167] in <e32e6d7df04c445fa2e455297404851e>:0 
+  at Microsoft.Xna.Framework.Game.Initialize () [0x0007f] in <e74204ee66e54283a1e13eb18d28f5d9>:0 
+  at Terraria.Main.Initialize () [0x0017b] in <e32e6d7df04c445fa2e455297404851e>:0 
+  at Microsoft.Xna.Framework.Game.DoInitialize () [0x0003c] in <e74204ee66e54283a1e13eb18d28f5d9>:0 
+  at Microsoft.Xna.Framework.Game.Run () [0x00011] in <e74204ee66e54283a1e13eb18d28f5d9>:0 
+  at Terraria.Program.RunGame () [0x00077] in <e32e6d7df04c445fa2e455297404851e>:0 
+
