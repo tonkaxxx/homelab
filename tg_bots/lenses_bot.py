@@ -7,7 +7,7 @@ from aiogram.client.default import DefaultBotProperties
 
 from datetime import time
 
-API_TOKEN = '7837872453:AAECZvmuzsIMgdqfvaQdgCt5_KL3Vor0zqo'
+API_TOKEN = ':AAECZvmuzsIMgdqfvaQdgCt5_KL3Vor0zqo'
 
 bot = Bot(
     token=API_TOKEN,
