@@ -16,5 +16,6 @@ Hey there! 👋 This is my homelab Kubernetes cluster running on **Alpine Linux*
 - telegram bot to track my lenses schedule
 - prometheus metrics and alert system
 - minecraft and valheim server for me and my friends
+- pi-hole for network-wide ad blocking
 
 ### Feel free to poke around, steal ideas, or judge my YAML files. 😄  
