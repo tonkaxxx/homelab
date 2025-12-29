@@ -42,12 +42,6 @@ curl http://localhost:9100/metrics | grep temp
 
 
 
-
-
-
-
-
-
 ### my python bot for lenses
 #### this python bot counts 15 days, and texts to me, when i need to change my lenses
 
@@ -60,3 +54,67 @@ kubectl -n bots create secret generic lenses-bot-secret \
 
 3. apply manifest
 kubectl apply -f lenses.yaml -n bots
+
+
+### homarr
+#### homarr - dashboard for my cluster
+
+1. install repo
+```
+helm repo add homarr-labs https://homarr-labs.github.io/charts/
+helm repo update
+kubectl create ns homarr
+```
+
+2. set secret for db
+kubectl create secret generic db-encryption \
+  --from-literal=db-encryption-key='<SECRET_ENCRYPTION_KEY_SECRET_TO_CHANGE>' \
+  --namespace homarr
+
+3. install chart 
+helm install homarr homarr-labs/homarr -n homarr
+
+4. port-forward
+kubectl patch svc homarr -n homarr -p '{"spec":{"type":"NodePort","ports":[{"port":7575,"targetPort":7575,"nodePort":30001}]}}'
+
+### dashy
+#### another dashboard
+
+1. install repo
+```
+helm repo add selfhosted-helmcharts https://vyrtualsynthese.github.io/selfhosted-helmcharts/
+helm repo update
+```
+
+2. create namespace
+kubectl create ns dashy
+
+3. install chart
+helm install dashy selfhosted-helmcharts/dashy -n dashy 
+
+4. port-forward
+kubectl patch svc dashy -n dashy -p '{"spec":{"type":"NodePort","ports":[{"port":8080,"targetPort":8080,"nodePort":30002}]}}'
+
+### dash 
+#### this app shows system resourses to homarr
+
+1. install repo
+```
+helm repo add oben01 https://oben01.github.io/charts/
+helm repo update
+```
+
+2. install chart
+helm install dash oben01/dashdot --namespace dash --create-namespace
+
+3. port-forward
+kubectl patch svc dash-dashdot -n dash -p '{"spec":{"type":"NodePort","ports":[{"port":3001,"targetPort":3001,"nodePort":30003}]}}'
+
+
+
+
+
+
+
+
+
