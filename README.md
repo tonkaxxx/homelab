@@ -19,5 +19,6 @@ Hey there! 👋 This is my homelab Kubernetes cluster running on **Alpine Linux*
 - pi-hole for network-wide ad blocking
 - homarr for dashboard
 - dashy - Yet Another Dashboard
+- i use **dash** to send system info and resourses to my dashboards
 
 ### Feel free to poke around, steal ideas, or judge my YAML files. 😄  
