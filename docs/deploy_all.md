@@ -186,3 +186,16 @@ helm upgrade --install navidrome navidrome/navidrome -n navidrome --create-names
 
 4. patch svc
 kubectl patch svc navidrome -n navidrome -p '{"spec":{"type":"NodePort","ports":[{"port":4533,"targetPort":4533,"nodePort":30005}]}}'
+
+### openbao
+#### vashicorp vault analog with mpl license
+
+1. install repo
+helm repo add openbao https://openbao.github.io/openbao-helm
+helm repo update
+
+2. install chart
+helm upgrade --install openbao openbao/openbao -n openbao --create-namespace -f openbao/values.yaml
+
+3. patch svc
+kubectl patch svc openbao -n openbao -p '{"spec":{"type":"NodePort","ports":[{"port":8200,"targetPort":8200,"nodePort":30007}]}}'
