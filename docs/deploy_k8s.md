@@ -63,11 +63,23 @@ kubectl top nodes
 helm repo add longhorn https://charts.longhorn.io
 helm repo update
 
-2. apply chart
+2. make some additional tweaks for longhorn
+```
+mount --make-rshared /
+
+apk update
+apk add open-iscsi util-linux
+
+rc-update add iscsid default
+rc-service iscsid start
+
+rc-service kubelet restart
+```
+4. apply chart
 helm install longhorn longhorn/longhorn --namespace longhorn-system --create-namespace 
 
-3. test web ui
-kubectl port-forward -n longhorn-system svc/longhorn-frontend 8080:80
+5. forward web ui
+kubectl patch svc longhorn-frontend -n longhorn-system -p '{"spec":{"type":"NodePort","ports":[{"port":80,"targetPort":80,"nodePort":30004}]}}'
 
 ### test postgres (no sharding)
 
