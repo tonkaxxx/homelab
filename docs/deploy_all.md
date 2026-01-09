@@ -199,3 +199,35 @@ helm upgrade --install openbao openbao/openbao -n openbao --create-namespace -f 
 
 3. patch svc
 kubectl patch svc openbao -n openbao -p '{"spec":{"type":"NodePort","ports":[{"port":8200,"targetPort":8200,"nodePort":30007}]}}'
+
+### tailscale 
+#### for accessing my servers and services outside my network
+
+1. create namespace
+kubectl create namespace tailscale
+
+2. generate auth key https://tailscale.com/kb/1185/kubernetes#setup
+
+3. go to tailscale dir and clone official repo
+cd k8s/tailscale
+git clone https://github.com/tailscale/tailscale.git
+
+4. go to k8s dir
+cd tailscale/tailscale/docs/k8s/
+
+5. make rbac 
+export SA_NAME=tailscale
+export TS_KUBE_SECRET=tailscale-auth
+make rbac | kubectl apply -f-
+
+6. create secret with auth key froy step 2
+kubectl create secret generic tailscale-auth -n tailscale \
+  --from-literal=TS_AUTHKEY=tskey-auth-qwerty1234567 # <- change key from step 2
+
+7. get back and deploy tailscale pod (change subnets line 32)
+cd ../../../..
+kubectl apply -f tailscale/pod-subnet-router.yaml
+
+8. open https://login.tailscale.com/admin/machines and look for new machine
+
+9. allow all subnets

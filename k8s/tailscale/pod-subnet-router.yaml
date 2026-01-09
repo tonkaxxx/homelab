@@ -1,0 +1,40 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: tailscale-subnet-router
+  namespace: tailscale
+  labels:
+    app: tailscale-subnet-router
+spec:
+  serviceAccountName: tailscale
+  restartPolicy: Always
+
+  initContainers:
+    - name: sysctler
+      image: busybox
+      command:
+        - /bin/sh
+        - "-c"
+        - sysctl -w net.ipv4.ip_forward=1 net.ipv6.conf.all.forwarding=1
+      securityContext:
+        privileged: true
+
+  containers:
+    - name: tailscale
+      image: ghcr.io/tailscale/tailscale:latest
+      imagePullPolicy: Always
+      env:
+        - name: TS_KUBE_SECRET
+          value: "tailscale-auth"
+        - name: TS_USERSPACE
+          value: "true"
+        - name: TS_ROUTES
+          value: "192.168.88.0/24,10.244.0.0/16"
+        - name: TS_AUTHKEY
+          valueFrom:
+            secretKeyRef:
+              name: tailscale-auth
+              key: TS_AUTHKEY
+              optional: true
+      securityContext:
+        privileged: false

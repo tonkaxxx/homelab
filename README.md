@@ -24,5 +24,6 @@ Hey there! 👋 This is my homelab Kubernetes cluster running on **Alpine Linux*
 - **seafile** for cloud storage
 - **navidrome** for music without ads (free download via soundcloud)
 - **openbao** - hashicorp vault analog with mpl license, i need it to write down my passwords and secrets for apps
+- **tailscale** for accessing my servers and services outside my network
 
 ### Feel free to poke around, steal ideas, or judge my YAML files. 😄  
