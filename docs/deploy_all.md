@@ -224,9 +224,9 @@ make rbac | kubectl apply -f-
 kubectl create secret generic tailscale-auth -n tailscale \
   --from-literal=TS_AUTHKEY=tskey-auth-qwerty1234567 # <- change key from step 2
 
-7. get back and deploy tailscale pod (change subnets line 32)
+7. get back and deploy tailscale (change subnets line 36)
 cd ../../../..
-kubectl apply -f tailscale/pod-subnet-router.yaml
+kubectl apply -f tailscale/subnet-router.yaml
 
 8. open https://login.tailscale.com/admin/machines and look for new machine
 

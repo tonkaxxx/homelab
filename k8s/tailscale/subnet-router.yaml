@@ -14,35 +14,52 @@ spec:
         app: tailscale-subnet-router
     spec:
       serviceAccountName: tailscale
+      initContainers:
+      - name: sysctler
+        image: busybox
+        command:
+        - /bin/sh
+        - "-c"
+        - sysctl -w net.ipv4.ip_forward=1 net.ipv6.conf.all.forwarding=1
+        securityContext:
+          privileged: true
       containers:
       - name: tailscale
-        image: tailscale/tailscale:latest
+        image: ghcr.io/tailscale/tailscale:latest
+        imagePullPolicy: Always
         env:
+        - name: TS_KUBE_SECRET
+          value: "tailscale-auth"
+        - name: TS_USERSPACE
+          value: "true"
+        - name: TS_ROUTES
+          value: "192.168.88.0/24,10.244.0.0/16" # mb change subnets (1st my servers local ip, 2nd cidr)
         - name: TS_AUTHKEY
           valueFrom:
             secretKeyRef:
               name: tailscale-auth
               key: TS_AUTHKEY
-        - name: TS_USERSPACE
-          value: "false"
-        - name: TS_EXTRA_ARGS
-          value: "--advertise-routes=192.168.88.0/24"
+              optional: true
         securityContext:
-          privileged: true
-        # capabilities:
-        #   add:
-        #   - NET_ADMIN
-        #   - SYS_MODULE
-        volumeMounts:
-        - name: dev-net-tun
-          mountPath: /dev/net/tun
-        - name: tailscale-state
-          mountPath: /var/lib/tailscale
-      volumes:
-      - name: dev-net-tun
-        hostPath:
-          path: /dev/net/tun
-      - name: tailscale-state
-        hostPath:
-          path: /var/lib/tailscale
-          type: DirectoryOrCreate
+          privileged: false
+        livenessProbe:
+          exec:
+            command:
+            - tailscale
+            - status
+          initialDelaySeconds: 30
+          periodSeconds: 60
+        readinessProbe:
+          exec:
+            command:
+            - tailscale
+            - status
+          initialDelaySeconds: 5
+          periodSeconds: 10
+        resources:
+          requests:
+            memory: "64Mi"
+            cpu: "50m"
+          limits:
+            memory: "256Mi"
+            cpu: "200m"
