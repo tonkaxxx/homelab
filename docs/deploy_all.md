@@ -218,7 +218,7 @@ cd tailscale/tailscale/docs/k8s/
 5. make rbac 
 export SA_NAME=tailscale
 export TS_KUBE_SECRET=tailscale-auth
-make rbac | kubectl apply -f-
+make rbac | kubectl apply -f- -n tailscale
 
 6. create secret with auth key froy step 2
 kubectl create secret generic tailscale-auth -n tailscale \
@@ -230,4 +230,4 @@ kubectl apply -f tailscale/subnet-router.yaml
 
 8. open https://login.tailscale.com/admin/machines and look for new machine
 
-9. allow all subnets
+9. allow all subnets in web interface
