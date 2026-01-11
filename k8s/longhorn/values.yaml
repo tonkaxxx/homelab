@@ -1,0 +1,5 @@
+persistence:
+  defaultClass: true
+  defaultClassReplicaCount: 1
+  defaultDataPath: /longhorn
+  disableSelinux: false

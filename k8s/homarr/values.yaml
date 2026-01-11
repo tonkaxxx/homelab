@@ -1,0 +1,15 @@
+rbac:
+  enabled: true
+
+serviceAccount:
+  create: true
+  name: homarr
+
+kubernetes:
+  enabled: true
+
+persistence:
+  homarrDatabase:
+    enabled: true
+    storageClassName: "longhorn"
+    size: "1Gi"
