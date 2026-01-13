@@ -1,0 +1,79 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name:  temp-checker
+  namespace: temp-checker
+  labels:
+    app:  temp-checker
+spec:
+  selector:
+    matchLabels:
+      app: temp-checker
+  replicas: 1
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app:  temp-checker
+    spec:
+      containers:
+      - name:  temp-checker
+        image:  tonkaxxx/temp_checker:latest
+        resources:
+          requests:
+            cpu: 100m
+            memory: 100Mi
+          limits:
+            cpu: 100m
+            memory: 100Mi
+        env:
+        - name: API_TOKEN
+          valueFrom:
+            secretKeyRef:
+              name: temp-checker-secrets
+              key: TELEGRAM_BOT_TOKEN
+        - name: CHAT_ID
+          valueFrom:
+            secretKeyRef:
+              name: temp-checker-secrets
+              key: TELEGRAM_CHAT_ID
+        volumeMounts:
+        - name: ssh-volume
+          mountPath: "/home/appuser/.ssh"
+          readOnly: true
+          defaultMode: 0600
+        - name: thermal-volume
+          mountPath: "/sys/class/thermal"
+          readOnly: true
+        securityContext:
+          privileged: false
+          readOnlyRootFilesystem: false
+      volumes:
+      - name: ssh-volume
+        secret:
+          secretName: ssh-key-secret
+          defaultMode: 0600
+      - name: thermal-volume
+        hostPath:
+          path: /sys/class/thermal
+          type: Directory
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: temp-checker-service
+  namespace: temp-checker
+spec:
+  selector:
+    app: temp-checker
+  ports:
+  - port: 8013
+    targetPort: 8013
+    nodePort: 30013
+  type: NodePort
