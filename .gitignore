@@ -2,3 +2,5 @@
 !example.env
 navidrome/data
 k8s/tailscale/tailscale
+talisman_report/
+temp_checker/ssh/id_ed25519

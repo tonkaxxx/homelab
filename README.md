@@ -25,5 +25,6 @@ Hey there! 👋 This is my homelab Kubernetes cluster running on **Alpine Linux*
 - **navidrome** for music without ads (free download via soundcloud)
 - **openbao** - hashicorp vault analog with mpl license, i need it to write down my passwords and secrets for apps
 - **tailscale** for accessing my servers and services outside my network
+- **temp checker** - my own app to check my nodes temperature and get alerts, when it critical 
 
 ### Feel free to poke around, steal ideas, or judge my YAML files. 😄  

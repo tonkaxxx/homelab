@@ -231,3 +231,36 @@ kubectl apply -f tailscale/subnet-router.yaml
 8. open https://login.tailscale.com/admin/machines and look for new machine
 
 9. allow all subnets in web interface
+
+### temp checker 
+#### this apps check my nodes temperature every 5 sec, if any node temp > 60, i get telegram message
+
+1. cd temp_checker
+
+2. cp and change example.env
+
+3. change master ip in app/main.py and in Dockerfile (if you dont need master skip step 4)
+
+4. build and push to docker hub (at first you need to create a repo https://hub.docker.com/)
+docker build -t ur_username/temp_checker:latest . 
+docker push ur_username/temp_checker:latest
+
+**docker deployment**
+
+1. use this command in .env file dir
+docker run -d \
+  -p 8013:8013 \
+  --name temp-checker \
+  --env-file .env \ 
+  --restart unless-stopped \
+  ur_username/temp_checker:latest
+
+
+
+
+
+
+
+
+
+
