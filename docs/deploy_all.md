@@ -238,22 +238,27 @@ kubectl apply -f tailscale/subnet-router.yaml
 1. cd temp_checker
 
 2. cp and change example.env
+cp example.env .env
 
-3. change master ip in app/main.py and in Dockerfile (if you dont need master skip step 4)
-
-4. build and push to docker hub (at first you need to create a repo https://hub.docker.com/)
-docker build -t ur_username/temp_checker:latest . 
-docker push ur_username/temp_checker:latest
+3. export thermal files (find thermal zone cpu by comparison with htop/btop) 
+docker run -d --rm \
+    -p 8080:8080 \
+    -v /sys/class/thermal:/sys/class/thermal:ro \
+    --privileged \
+    --name temp_exporter \
+    -e DIR=/sys/class/thermal/thermal_zone2 \
+    -e PORT=8080 \
+	tonkaxxx/temp_exporter:latest
 
 **docker deployment**
 
 1. use this command in .env file dir
-docker run -d \
+docker run -d --rm \
   -p 8013:8013 \
   --name temp-checker \
   --env-file .env \ 
   --restart unless-stopped \
-  ur_username/temp_checker:latest
+  tonkaxxx/temp_checker:latest
 
 
 

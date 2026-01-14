@@ -6,6 +6,7 @@ import time
 import requests
 from dotenv import load_dotenv
 import subprocess
+from datetime import datetime, timedelta
 
 app = Flask(__name__)
 
@@ -14,21 +15,22 @@ load_dotenv()
 API_TOKEN = os.getenv('API_TOKEN')
 CHAT_ID =  os.getenv('CHAT_ID')
 
-def get_cpu_temperature():
-    try:
-        with open('/sys/class/thermal/thermal_zone1/temp', 'r') as f:
-            temp = float(f.read().strip()) / 1000.0
-        return temp
-        
-    except Exception as e:
-        print(f"Error reading temperature: {e}")
-        return None
+WORKER_IP =  os.getenv('WORKER_IP')
+MASTER_IP =  os.getenv('MASTER_IP')
+PORT =  os.getenv('PORT')
 
-def get_master_cpu_temperature():
-    result = subprocess.run("ssh master@192.168.88.80 cat /sys/class/thermal/thermal_zone7/temp", 
-        shell=True, capture_output=True, text=True).stdout
-    temp = int(result.strip()) / 1000
-    return temp
+def get_cpu_temperature(ip, port):
+    try:
+        result = subprocess.run(
+            f"curl -s http://{ip}:{port}/temp", 
+            shell=True, capture_output=True, text=True
+        )
+        temp_str = result.stdout.strip()
+        if temp_str:
+            return int(temp_str) / 1000
+        return None
+    except:
+        return None
 
 def send_telegram_api(message):
     url = f"https://api.telegram.org/bot{API_TOKEN}/sendMessage"
@@ -46,9 +48,12 @@ def send_telegram_api(message):
 @app.route('/')
 def index():
     """main page with temperature"""
-    temp = get_cpu_temperature()
-    temp_master = get_master_cpu_temperature()
+    temp = get_cpu_temperature(WORKER_IP, PORT)
+    temp_master = get_cpu_temperature(MASTER_IP, PORT)
 
+    print(temp)
+    print(temp_master)
+    
     if temp >= 70.0:
         message = f"ALERT! Temperature on worker = {temp:.1f}!!!"
         send_telegram_api(message)
@@ -133,7 +138,7 @@ def index():
 
                 <h1><span class="cpu-label">CPU MASTER</span> Temperature</h1>
                 <div class="temp-value">{temp_master:.1f}<span class="temp-unit">°C</span></div>
-                <div class="timestamp">{time.strftime('%H:%M:%S')}</div>
+                <div class="timestamp">{(datetime.now() + timedelta(hours=3)).strftime('%H:%M:%S')}</div>
             </div>
         </body>
         </html>
