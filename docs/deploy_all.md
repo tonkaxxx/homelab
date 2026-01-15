@@ -260,10 +260,14 @@ docker run -d --rm \
   --restart unless-stopped \
   tonkaxxx/temp_checker:latest
 
+**kubernetes**
 
+1. cp and change k8s/temp_checker/example_secrets.yaml
+cp k8s/temp_checker/example_secrets.yaml k8s/temp_checker/secrets.yaml 
 
+2. kubectl apply -f k8s/temp_checker/secrets.yaml 
 
-
+3. kubectl apply -f k8s/temp_checker/deployment_and_svc.yaml 
 
 
 

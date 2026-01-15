@@ -1,0 +1,74 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: temp-checker
+  namespace: temp-checker
+  labels:
+    app: temp-checker
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: temp-checker
+  template:
+    metadata:
+      labels:
+        app: temp-checker
+    spec:
+      containers:
+      - name: temp-checker
+        image: tonkaxxx/temp_checker:latest
+        ports:
+        - containerPort: 8013
+        env:
+        - name: API_TOKEN
+          valueFrom:
+            secretKeyRef:
+              name: secrets
+              key: API_TOKEN
+        - name: CHAT_ID
+          valueFrom:
+            secretKeyRef:
+              name: secrets
+              key: CHAT_ID
+        - name: WORKER_IP
+          valueFrom:
+            secretKeyRef:
+              name: secrets
+              key: WORKER_IP
+        - name: MASTER_IP
+          valueFrom:
+            secretKeyRef:
+              name: secrets
+              key: MASTER_IP
+        - name: PORT
+          valueFrom:
+            secretKeyRef:
+              name: secrets
+              key: PORT
+        resources:
+          requests:
+            memory: "64Mi"
+            cpu: "50m"
+          limits:
+            memory: "128Mi"
+            cpu: "100m"
+        securityContext:
+          runAsUser: 1000
+          runAsNonRoot: true
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: temp-checker-service
+  namespace: temp-checker
+spec:
+  selector:
+    app: temp-checker
+  ports:
+  - port: 8013
+    targetPort: 8013
+    nodePort: 30013
+  type: NodePort
