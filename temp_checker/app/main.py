@@ -5,6 +5,8 @@ import os
 import time
 import requests
 from dotenv import load_dotenv
+import subprocess
+from datetime import datetime, timedelta
 
 app = Flask(__name__)
 
@@ -13,16 +15,22 @@ load_dotenv()
 API_TOKEN = os.getenv('API_TOKEN')
 CHAT_ID =  os.getenv('CHAT_ID')
 
-def get_cpu_temperature():
-    try:
-        with open('/sys/class/thermal/thermal_zone0/temp', 'r') as f:
-            temp = float(f.read().strip()) / 1000.0
-        return temp
-        
-    except Exception as e:
-        print(f"Error reading temperature: {e}")
-        return None
+WORKER_IP =  os.getenv('WORKER_IP')
+MASTER_IP =  os.getenv('MASTER_IP')
+PORT =  os.getenv('PORT')
 
+def get_cpu_temperature(ip, port):
+    try:
+        result = subprocess.run(
+            f"curl -s http://{ip}:{port}/temp", 
+            shell=True, capture_output=True, text=True
+        )
+        temp_str = result.stdout.strip()
+        if temp_str:
+            return int(temp_str) / 1000
+        return None
+    except:
+        return None
 
 def send_telegram_api(message):
     url = f"https://api.telegram.org/bot{API_TOKEN}/sendMessage"
@@ -40,17 +48,23 @@ def send_telegram_api(message):
 @app.route('/')
 def index():
     """main page with temperature"""
-    temp = get_cpu_temperature()
+    temp = get_cpu_temperature(WORKER_IP, PORT)
+    temp_master = get_cpu_temperature(MASTER_IP, PORT)
 
-    if temp >= 10.0:
-        with open('/etc/hostname', 'r') as f:
-            hostname = f.read().strip()
+    print(temp)
+    print(temp_master)
+    
+    if temp >= 70.0:
+        message = f"ALERT! Temperature on worker = {temp:.1f}!!!"
+        send_telegram_api(message)
+        print(message)
 
-        message = f"ALERT! Temperature on server {hostname} = {temp:.1f}!!!"
+    if temp_master >= 70.0:
+        message = f"ALERT! Temperature on master = {temp_master:.1f}!!!"
         send_telegram_api(message)
         print(message)
     
-    if temp is not None:
+    if temp and temp_master is not None:
         html = f"""
         <!DOCTYPE html>
         <html>
@@ -67,7 +81,7 @@ def index():
                 }}
                 .temp-container {{
                     background: linear-gradient(145deg, #1e1e1e, #2a2a2a);
-                    padding: 25px 35px;
+                    padding: 45px 35px;
                     border-radius: 0 0 16px 0;
                     box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5),
                                 0 0 0 1px rgba(255, 255, 255, 0.05);
@@ -119,9 +133,12 @@ def index():
         </head>
         <body>
             <div class="temp-container">
-                <h1><span class="cpu-label">CPU</span> Temperature</h1>
+                <h1><span class="cpu-label">CPU WORKER</span> Temperature</h1>
                 <div class="temp-value">{temp:.1f}<span class="temp-unit">°C</span></div>
-                <div class="timestamp">{time.strftime('%H:%M:%S')}</div>
+
+                <h1><span class="cpu-label">CPU MASTER</span> Temperature</h1>
+                <div class="temp-value">{temp_master:.1f}<span class="temp-unit">°C</span></div>
+                <div class="timestamp">{(datetime.now() + timedelta(hours=3)).strftime('%H:%M:%S')}</div>
             </div>
         </body>
         </html>

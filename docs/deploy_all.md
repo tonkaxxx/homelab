@@ -231,3 +231,56 @@ kubectl apply -f tailscale/subnet-router.yaml
 8. open https://login.tailscale.com/admin/machines and look for new machine
 
 9. allow all subnets in web interface
+
+### temp checker 
+#### this apps check my nodes temperature every 5 sec, if any node temp > 60, i get telegram message
+
+1. cd temp_checker
+
+2. cp and change example.env
+cp example.env .env
+
+3. export thermal files (find thermal zone cpu by comparison with htop/btop) 
+docker run -d --rm \
+    -p 8080:8080 \
+    -v /sys/class/thermal:/sys/class/thermal:ro \
+    --privileged \
+    --name temp_exporter \
+    -e DIR=/sys/class/thermal/thermal_zone2 \
+    -e PORT=8080 \
+	tonkaxxx/temp_exporter:latest
+
+**docker deployment**
+
+1. use this command in .env file dir
+docker run -d --rm \
+  -p 8013:8013 \
+  --name temp-checker \
+  --env-file .env \ 
+  --restart unless-stopped \
+  tonkaxxx/temp_checker:latest
+
+**kubernetes deployment**
+
+1. cp and change k8s/temp_checker/example_secrets.yaml
+cp k8s/temp_checker/example_secrets.yaml k8s/temp_checker/secrets.yaml 
+
+2. kubectl apply -f k8s/temp_checker/secrets.yaml 
+
+3. kubectl apply -f k8s/temp_checker/deployment_and_svc.yaml 
+
+### argocd
+#### for automated deployment, recovery, and git synced k8s management.
+
+1. create ns and install argo
+kubectl create namespace argocd
+kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
+
+2. patch svc
+kubectl patch service argocd-server -n argocd -p '{"spec": {"type": "NodePort", "ports": [{"name": "http", "port": 80, "targetPort": 8080, "nodePort": 30008}, {"name": "https", "port": 443, "targetPort": 8443, "nodePort": 30443}]}}'
+
+3. get password and copy
+kubectl get secret argocd-initial-admin-secret -n argocd -o jsonpath='{.data.password}' | base64 --decode && echo
+
+4. go to https://UR_NODE_IP:30008 and login with `admin` and `password from step 3`
+
