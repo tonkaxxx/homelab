@@ -284,3 +284,20 @@ kubectl get secret argocd-initial-admin-secret -n argocd -o jsonpath='{.data.pas
 
 4. go to https://UR_NODE_IP:30008 and login with `admin` and `password from step 3`
 
+### sonarqube
+#### for my ci pipeline
+
+1. add repo
+helm repo add sonarqube https://SonarSource.github.io/helm-chart-sonarqube
+helm repo update
+
+2. kubectl create namespace sonarqube
+
+3. create secret and change the password
+kubectl -n sonarqube create secret generic sonar-password \
+  --from-literal=sonar-password=YOUR_SUPER_SECRET_PASSWORD
+
+4. install chart 
+helm upgrade --install sonarqube sonarqube/sonarqube -n sonarqube --create-namespace -f sonarqube/values.yaml 
+
+5. kubectl patch svc sonarqube-sonarqube -n sonarqube -p '{"spec":{"type":"NodePort","ports":[{"port":9000,"nodePort":30009}]}}'

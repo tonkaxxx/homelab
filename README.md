@@ -26,6 +26,7 @@ Hey there! 👋 This is my homelab Kubernetes cluster running on **Alpine Linux*
 - **openbao** - hashicorp vault analog with mpl license, i need it to write down my passwords and secrets for apps
 - **tailscale** for accessing my servers and services outside my network
 - **temp checker** - my own app to check my nodes temperature and get alerts, when it critical 
-- **argo cd** for automated deployment, recovery, and git synced k8s management.
+- **argo cd** for automated deployment, recovery, and git synced k8s management
+- **sonarqube** - for code quality and sec review in my gitlab ci
 
 ### Feel free to poke around, steal ideas, or judge my YAML files.  
